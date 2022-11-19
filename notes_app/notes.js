@@ -3,9 +3,9 @@ import fs from 'fs';
 
 export const addNote = (title, body) => {
   const notes = loadNotes();
-  const duplicateNotes = notes.filter((note) => note.title === title);
+  const duplicateNote = notes.find((note) => note.title === title);
 
-  if (duplicateNotes.length === 0) {
+  if (!duplicateNote) {
     notes.push({
       title: title,
       body: body,
@@ -26,6 +26,26 @@ export const removeNote = (title) => {
     saveNotes(notesToKeep);
   } else {
     console.log(chalk.red.inverse('No note found'));
+  }
+};
+
+export const listNotes = () => {
+  const notes = loadNotes();
+  console.log(chalk.inverse('Your notes'));
+  notes.forEach((note) => {
+    console.log(note.title);
+  });
+};
+
+export const readNote = (title) => {
+  const notes = loadNotes();
+  const note = notes.find((note) => note.title === title);
+
+  if (note) {
+    console.log(chalk.inverse(note.title));
+    console.log(note.body);
+  } else {
+    console.log(chalk.red.inverse('Note not found'));
   }
 };
 

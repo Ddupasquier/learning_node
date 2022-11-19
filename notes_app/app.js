@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { addNote, removeNote } from './notes.js';
+import { addNote, removeNote, listNotes, readNote } from './notes.js';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
@@ -19,7 +19,7 @@ yargs(hideBin(process.argv))
         type: 'string',
       },
     },
-    handler: function (argv) {
+    handler: (argv) => {
       console.log('Adding notes');
       console.log('Title: ' + argv.title);
       console.log('Body: ' + argv.body);
@@ -39,7 +39,7 @@ yargs(hideBin(process.argv))
         type: 'string',
       },
     },
-    handler: function (argv) {
+    handler: (argv) => {
       console.log('Removing notes');
       console.log('Title: ' + argv.title + 'removed');
       removeNote(argv.title);
@@ -51,8 +51,8 @@ yargs(hideBin(process.argv))
   .command({
     command: 'list',
     describe: 'Listing command',
-    handler: function () {
-      console.log('Listing notes');
+    handler: () => {
+      listNotes();
     },
   })
   .parse();
@@ -61,8 +61,9 @@ yargs(hideBin(process.argv))
   .command({
     command: 'read',
     describe: 'Reading command',
-    handler: function () {
-      console.log('Reading notes');
+    handler: (argv) => {
+      console.log('Reading note');
+      readNote(argv.title);
     },
   })
   .parse();
